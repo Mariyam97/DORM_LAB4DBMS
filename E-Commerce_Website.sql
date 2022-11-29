@@ -12,6 +12,7 @@ SUPP_NAME VARCHAR(50) NOT NULL,
 SUPP_CITY VARCHAR(50) NOT NULL,
 SUPP_PHONE VARCHAR(50) NOT NULL
 );
+
 -- CREATE TABLE FOR CUSTOMER
 CREATE TABLE customer(
 CUS_ID INT PRIMARY KEY,
@@ -20,11 +21,13 @@ CUS_PHONE VARCHAR(10) NOT NULL,
 CUS_CITY VARCHAR(30) NOT NULL,
 CUS_GENDER CHAR
 );
+
 -- CREATE TABLE FOR CATEGORY
 CREATE TABLE category(
 CAT_ID INT PRIMARY KEY,
 CAT_NAME VARCHAR(20) NOT NULL
 );
+
 -- CREATE TABLE FOR PRODUCT
 CREATE TABLE product(
 PRO_ID INT PRIMARY KEY,
@@ -33,6 +36,7 @@ PRO_DESC VARCHAR(60),
 CAT_ID INT,
 FOREIGN KEY (CAT_ID) REFERENCES category(CAT_ID)
 );
+
 -- CREATE TABLE FOR SUPPLIER_PRICING
 CREATE TABLE supplier_pricing(
 PRICING_ID INT PRIMARY KEY,
@@ -41,7 +45,8 @@ FOREIGN KEY(PRO_ID) REFERENCES product(PRO_ID),
 SUPP_ID INT,
 FOREIGN KEY(SUPP_ID) REFERENCES supplier(SUPP_ID),
 SUPP_PRICE INT DEFAULT 0
-); 
+);
+
 -- CREATE TABLE FOR ORDER
 CREATE TABLE orders(
 ORD_ID INT PRIMARY KEY,
@@ -52,6 +57,7 @@ FOREIGN KEY(CUS_ID) REFERENCES customer(CUS_ID),
 PRICING_ID INT ,
 FOREIGN KEY(PRICING_ID) REFERENCES supplier_pricing(PRICING_ID)
 );
+
 -- CREATE TABLE FOR RATING
 CREATE TABLE rating(
 RAT_ID INT PRIMARY KEY,
@@ -59,6 +65,7 @@ ORD_ID INT,
 FOREIGN KEY(ORD_ID) REFERENCES orders(ORD_ID),
 RAT_RATSTARS INT NOT NULL
 );
+
 
 -- 2). Insert the following data in the table created above
 
@@ -114,10 +121,7 @@ INSERT INTO supplier_pricing VALUES(1,1,2,1500),
 				   (14,6,1,99),
 				   (15,2,5,2999),
 				   (16,5,2,2999);
-
-
-                                   
-
+				   
 -- INSERT RECORDS IN ORDER TABLE
 INSERT INTO orders VALUES(101,1500,'2021-10-06',2, 1),
 			 (102,1000,'2021-10-12',3, 5),
@@ -135,8 +139,7 @@ INSERT INTO orders VALUES(101,1500,'2021-10-06',2, 1),
 			 (114,1000,'2021-09-16',3, 5),
 			 (115,3000,'2021-09-16',5, 3),
 			 (116,99,'2021-09-17',2 , 14);
-                          
-                          
+                                                   
 -- INSERT RECORDS IN RATING TABLE
 INSERT INTO rating VALUES(1,101,4),
 			 (2,102,3),
@@ -154,7 +157,9 @@ INSERT INTO rating VALUES(1,101,4),
 			 (14,114,1),
 			 (15,115,1),
 			 (16,116,0);
-                         
+
+
+
 -- 3).Display the total number of customers based on gender who have placed orders of worth at least Rs.3000.
 
 SELECT COUNT(CUS_GENDER) AS TotalNoOfCustomers,CUS_GENDER
@@ -207,6 +212,7 @@ SELECT category.CAT_ID,category.CAT_NAME, MIN(t3.min_price) as Min_Price
         as t3 WHERE t3.CAT_ID = category.CAT_ID GROUP BY t3.CAT_ID;
         
 -- 7). Display the Id and Name of the Product ordered after “2021-10-05”.
+
  SELECT product.PRO_ID,product.PRO_NAME
 FROM orders
   INNER JOIN
@@ -216,6 +222,7 @@ FROM orders
 	  WHERE orders.ORD_DATE>"2021-10-05";
  
  -- 8). Display customer name and gender whose names start or end with character 'A'.
+ 
    SELECT customer.CUS_NAME,customer.CUS_GENDER
   FROM customer 
   WHERE customer.CUS_NAME LIKE 'A%' OR customer.CUS_NAME LIKE '%A';
